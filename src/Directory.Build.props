@@ -9,8 +9,8 @@
     <!-- Build output stays out of the source folders; STYLEMETER_BUILD_ROOT moves it to a short path when the clone sits
          deep enough to hit Windows' 260-character limit. -->
     <BuildRoot Condition="'$(BuildRoot)' == '' and '$(STYLEMETER_BUILD_ROOT)' != ''">$(STYLEMETER_BUILD_ROOT)</BuildRoot>
-    <BuildRoot Condition="'$(BuildRoot)' == ''">$(MSBuildThisFileDirectory)..\.build</BuildRoot>
-    <BaseIntermediateOutputPath>$(BuildRoot)\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
-    <BaseOutputPath>$(BuildRoot)\bin\$(MSBuildProjectName)\</BaseOutputPath>
+    <BuildRoot Condition="'$(BuildRoot)' == ''">$(MSBuildThisFileDirectory)../.build</BuildRoot>
+    <BaseIntermediateOutputPath>$(BuildRoot)/obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(BuildRoot)/bin/$(MSBuildProjectName)/</BaseOutputPath>
   </PropertyGroup>
 </Project>
