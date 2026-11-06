@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <!-- The one place the version lives: the plugin's BepInPlugin attribute is generated from it. -->
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
     <LangVersion>latest</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GameDir Condition="'$(GameDir)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong</GameDir>
