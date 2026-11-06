@@ -1,0 +1,30 @@
+# Build output and release packages
+.build/
+bin/
+obj/
+dist/
+*.user
+.vs/
+.vscode/
+.idea/
+
+# Working notes, research and backups stay local
+MODLOG.md
+PLAN.md
+PLAYTEST_*.md
+DESIGN.md
+AUTOTEST.md
+BONUSES.md
+MECHANICS.md
+research/
+backup/
+tools/sandbox/
+tools/*.py
+
+# Art: only the two needle pictures built into the plugin are published
+art/needle/*
+!art/needle/drawn/
+art/needle/drawn/*
+!art/needle/drawn/needle_drawn.png
+!art/needle/drawn/rapier_drawn.png
+art/screens/

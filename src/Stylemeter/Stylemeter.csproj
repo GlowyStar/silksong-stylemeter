@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>Stylemeter</AssemblyName>
+    <RootNamespace>Stylemeter</RootNamespace>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- dotnet build -c Dev adds the sandbox, the command bridge and the research logs (folder Dev and the *.Dev.cs
+       parts). The Release build that players get has none of it. -->
+  <PropertyGroup>
+    <Configurations>Release;Dev</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Dev'">
+    <Optimize>true</Optimize>
+    <DefineConstants>$(DefineConstants);STYLEMETER_DEV</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(Configuration)' != 'Dev'">
+    <Compile Remove="Dev\**" />
+    <Compile Remove="**\*.Dev.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx" HintPath="$(GameDir)\BepInEx\core\BepInEx.dll" Private="false" />
+    <Reference Include="0Harmony" HintPath="$(GameDir)\BepInEx\core\0Harmony.dll" Private="false" />
+    <Reference Include="Assembly-CSharp" HintPath="$(ManagedDir)\Assembly-CSharp.dll" Private="false" />
+    <Reference Include="PlayMaker" HintPath="$(ManagedDir)\PlayMaker.dll" Private="false" />
+    <Reference Include="TeamCherry.Localization" HintPath="$(ManagedDir)\TeamCherry.Localization.dll" Private="false" />
+    <Reference Include="TeamCherry.SharedUtils" HintPath="$(ManagedDir)\TeamCherry.SharedUtils.dll" Private="false" />
+    <Reference Include="UnityEngine" HintPath="$(ManagedDir)\UnityEngine.dll" Private="false" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="$(ManagedDir)\UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="UnityEngine.InputLegacyModule" HintPath="$(ManagedDir)\UnityEngine.InputLegacyModule.dll" Private="false" />
+    <Reference Include="UnityEngine.Physics2DModule" HintPath="$(ManagedDir)\UnityEngine.Physics2DModule.dll" Private="false" />
+    <Reference Include="UnityEngine.IMGUIModule" HintPath="$(ManagedDir)\UnityEngine.IMGUIModule.dll" Private="false" />
+    <Reference Include="UnityEngine.TextRenderingModule" HintPath="$(ManagedDir)\UnityEngine.TextRenderingModule.dll" Private="false" />
+    <Reference Include="UnityEngine.ScreenCaptureModule" HintPath="$(ManagedDir)\UnityEngine.ScreenCaptureModule.dll" Private="false" />
+    <Reference Include="UnityEngine.UI" HintPath="$(ManagedDir)\UnityEngine.UI.dll" Private="false" />
+    <Reference Include="UnityEngine.UIModule" HintPath="$(ManagedDir)\UnityEngine.UIModule.dll" Private="false" />
+    <Reference Include="UnityEngine.ImageConversionModule" HintPath="$(ManagedDir)\UnityEngine.ImageConversionModule.dll" Private="false" />
+    <Reference Include="UnityEngine.AnimationModule" HintPath="$(ManagedDir)\UnityEngine.AnimationModule.dll" Private="false" />
+  </ItemGroup>
+
+  <!-- The needle art of the meter (art/needle/drawn), built into the plugin. -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\art\needle\drawn\needle_drawn.png" LogicalName="Stylemeter.Art.needle_drawn.png" />
+    <EmbeddedResource Include="..\..\art\needle\drawn\rapier_drawn.png" LogicalName="Stylemeter.Art.rapier_drawn.png" />
+  </ItemGroup>
+
+  <!-- PluginInfo.Version for the BepInPlugin attribute, written from $(Version) on every build. -->
+  <Target Name="WritePluginInfo" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <PluginInfoFile>$(IntermediateOutputPath)PluginInfo.g.cs</PluginInfoFile>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(PluginInfoFile)" Overwrite="true" WriteOnlyWhenDifferent="true"
+                      Lines="namespace Stylemeter { internal static class PluginInfo { public const string Version = &quot;$(Version)&quot;%3B } }" />
+    <ItemGroup>
+      <Compile Include="$(PluginInfoFile)" />
+      <FileWrites Include="$(PluginInfoFile)" />
+    </ItemGroup>
+  </Target>
+
+  <!-- dotnet build -p:InstallToGame=true copies the plugin into the game's BepInEx\plugins\Stylemeter. -->
+  <Target Name="InstallToGame" AfterTargets="Build" Condition="'$(InstallToGame)' == 'true'">
+    <MakeDir Directories="$(GameDir)\BepInEx\plugins\Stylemeter" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(GameDir)\BepInEx\plugins\Stylemeter" />
+  </Target>
+
+</Project>

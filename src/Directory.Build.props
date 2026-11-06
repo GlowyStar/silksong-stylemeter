@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <!-- The one place the version lives: the plugin's BepInPlugin attribute is generated from it. -->
+    <Version>0.3.0</Version>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GameDir Condition="'$(GameDir)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong</GameDir>
+    <ManagedDir>$(GameDir)\Hollow Knight Silksong_Data\Managed</ManagedDir>
+    <!-- Build output stays out of the source folders; STYLEMETER_BUILD_ROOT moves it to a short path when the clone sits
+         deep enough to hit Windows' 260-character limit. -->
+    <BuildRoot Condition="'$(BuildRoot)' == '' and '$(STYLEMETER_BUILD_ROOT)' != ''">$(STYLEMETER_BUILD_ROOT)</BuildRoot>
+    <BuildRoot Condition="'$(BuildRoot)' == ''">$(MSBuildThisFileDirectory)..\.build</BuildRoot>
+    <BaseIntermediateOutputPath>$(BuildRoot)\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(BuildRoot)\bin\$(MSBuildProjectName)\</BaseOutputPath>
+  </PropertyGroup>
+</Project>
