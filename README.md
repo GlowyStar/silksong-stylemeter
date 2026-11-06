@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/hero.jpg" alt="Hornet pogoing on a pilgrim at the rank SUBLIME, the style meter in the top right corner" width="100%">
+  <img src="docs/images/hero.jpg" alt="Hornet at a snowy gate on Mount Fay, the meter at SILKSONG in the top right corner with RAMPAGE, GIT GUD and other bonuses in its feed" width="100%">
 </p>
 
 <h1 align="center">Stylemeter</h1>
@@ -33,8 +33,9 @@ tool trick and boss win is a named bonus. Keep them varied and keep them coming,
 up rank by rank. Repeat the same move, get hit or stand idle, and it drains away.
 
 <p align="center">
-  <img src="docs/images/climb.webp" alt="A pogo chain on a pilgrim takes the meter from BELLSONG through ASCENDED and SUBLIME to SSERENADE, the feed lists every bonus" width="860">
-  <br><sub>A real pogo chain in game: BELLSONG, ASCENDED, SUBLIME, SSERENADE, then the kill.</sub>
+  <img src="docs/images/fight.webp" alt="Ten seconds of a fight on Mount Fay: blood splashes as the meter reaches SSSILKSTORM, light flares at SILKSONG, a hit slashes it in two, and it flares up again" width="860">
+  <br><sub>A real fight on Mount Fay, played by hand: SSERENADE, a splash of blood at SSSILKSTORM, a burst of light at
+  SILKSONG, a hit that slashes it in two, and SILKSONG again.</sub>
 </p>
 
 > **Beta.** Everything below works and has been played through, and the scoring rules have automated tests. It
@@ -55,7 +56,8 @@ up rank by rank. Repeat the same move, get hit or stand idle, and it drains away
 - **A reward for holding the top:** one silk for every five seconds at SILKSONG (can be turned off).
 - **Settings in the game:** a panel in Options with the points multiplier and a switch for every bonus.
 - **Looks like it belongs:** a hand-drawn needle that fills as you score, rank names in the game's own lettering,
-  a bloodied needle at SSSILKSTORM and a divine glow at SILKSONG.
+  a bloodied needle at SSSILKSTORM and a divine glow at SILKSONG. The top two ranks come and go in their own way:
+  blood for SSSILKSTORM, light and a slash for SILKSONG.
 - **Safe:** no save is touched, nothing goes online, and a game update that changes something the mod reads only
   switches off the bonus that needs it.
 
@@ -106,15 +108,17 @@ The meter does not drain in menus, cutscenes, dialogue, scene transitions or on 
 
 ### The meter on screen
 
-<img align="right" src="docs/images/feed.png" alt="The meter at SSSILKSTORM with its feed of bonuses" width="420">
-
 - **The rank** in the game's lettering, with its initial large behind it.
 - **The needle** fills with the current rank; at SSSILKSTORM it is bloodied, at SILKSONG it turns into the rapier.
 - **HEIGHT** shows the air multiplier, **THREAD** the tension of the move you just used.
 - **The feed** lists the latest bonuses, newest on top; a repeat stacks as `x3`. The colour tells the base points:
   white below 100, gold from 100, rose from 200, red from 300.
+- **The top two ranks** have entrances and exits of their own. SSSILKSTORM arrives in a splash of blood and, once
+  lost, runs off in blood; SILKSONG flares up in light and, once lost, is slashed in two and its halves fall.
 
-<br clear="right">
+<p align="center">
+  <img src="docs/images/shrine.jpg" alt="Hornet before a bench shrine, the meter at SILKSONG with RAMPAGE in red, GIT GUD in white and gold and rose bonuses below" width="860">
+</p>
 
 ### A taste of the catalog
 
