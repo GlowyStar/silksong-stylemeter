@@ -15,6 +15,8 @@
   <img alt="BepInEx 5" src="https://img.shields.io/badge/BepInEx-5.4.23%2B-5b6b7f">
   <a href="https://github.com/GlowyStar/silksong-stylemeter/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/GlowyStar/silksong-stylemeter/actions/workflows/ci.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="Лицензия MIT" src="https://img.shields.io/badge/license-MIT-2ea043"></a>
+  <a href="https://www.nexusmods.com/hollowknightsilksong/mods/1398"><img alt="Nexus Mods" src="https://img.shields.io/badge/Nexus%20Mods-Stylemeter-d98f40"></a>
+  <a href="https://thunderstore.io/c/hollow-knight-silksong/p/GlowyStar/Stylemeter/"><img alt="Thunderstore" src="https://img.shields.io/badge/Thunderstore-Stylemeter-23a0ce"></a>
 </p>
 
 <p align="center">
@@ -166,12 +168,13 @@ flowchart LR
 
 ## Установка
 
-Нужна Hollow Knight: Silksong на Windows (проверено на версии из Steam). У каждого релиза три архива, выбери один.
+Нужна Hollow Knight: Silksong на Windows (проверено на версии из Steam). Stylemeter есть на
+[GitHub Releases][releases], [Nexus Mods][nexus] и [Thunderstore][thunderstore]; выбери любой способ.
 
 **Проще всего: один архив, в котором есть всё.**
 
-1. Скачай `Stylemeter-0.4.0-with-BepInEx.zip` со страницы
-   [Releases](https://github.com/GlowyStar/silksong-stylemeter/releases).
+1. Скачай `Stylemeter-0.4.0-with-BepInEx.zip` со страницы [Releases][releases] или главный файл
+   "Stylemeter 0.4.0 with BepInEx" с [Nexus Mods][nexus].
 2. Открой папку игры: в Steam правой кнопкой по игре, **Управление > Просмотреть локальные файлы**. Это папка с
    `Hollow Knight Silksong.exe`.
 3. Распакуй архив прямо в эту папку, а не в новую папку внутри неё: `winhttp.dll` должен оказаться рядом с exe.
@@ -181,9 +184,10 @@ flowchart LR
 В архиве лежит [BepInEx 5](https://github.com/BepInEx/BepInEx) (5.4.23), обычный загрузчик модов для игр на Unity,
 без изменений и под своей лицензией (LGPL 2.1, она приложена), так что больше ничего не нужно.
 
-**Через менеджер модов.** `Stylemeter-0.4.0-thunderstore.zip` это пакет Thunderstore. В r2modman или Thunderstore
-Mod Manager выбери Hollow Knight: Silksong и в настройках нажми **Import local mod**. Если BepInEx для Silksong в
-менеджере ещё нет, сначала поставь из его списка **BepInExPack Silksong**.
+**Через менеджер модов.** В r2modman или Thunderstore Mod Manager выбери Hollow Knight: Silksong и поставь
+Stylemeter из списка модов или нажми **Install with App** на его [странице в Thunderstore][thunderstore];
+BepInExPack Silksong менеджер поставит сам. `Stylemeter-0.4.0-thunderstore.zip` из Releases это тот же пакет
+для **Import local mod** в настройках менеджера.
 
 **BepInEx 5 уже стоит?** Распакуй `Stylemeter-0.4.0.zip` в папку игры; плагин окажется в
 `BepInEx/plugins/Stylemeter/Stylemeter.dll`.
@@ -210,6 +214,10 @@ Get-FileHash .\Stylemeter-0.4.0-with-BepInEx.zip -Algorithm SHA256
 **Обновление:** распакуй новый архив поверх старого. **Удаление:** удали `BepInEx/plugins/Stylemeter` (и при
 желании `BepInEx/config/com.glowystar.stylemeter.cfg` и `BepInEx/Stylemeter`). Чтобы убрать и BepInEx, удали ещё
 `winhttp.dll`, `doorstop_config.ini`, `.doorstop_version`, `changelog.txt` и папку `BepInEx`.
+
+[releases]: https://github.com/GlowyStar/silksong-stylemeter/releases
+[nexus]: https://www.nexusmods.com/hollowknightsilksong/mods/1398
+[thunderstore]: https://thunderstore.io/c/hollow-knight-silksong/p/GlowyStar/Stylemeter/
 
 ## Вопросы
 
