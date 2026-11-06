@@ -11,7 +11,8 @@ namespace Stylemeter.Game.Hud
     // silk-hilted rapier at SILKSONG), the height and thread line, and the feed of bonuses coloured by weight. Laid
     // out on a 1280x720 canvas that scales with the screen height.
     // Text is the game's own TextMeshPro (TMProOld, inside Assembly-CSharp): its fonts exist only as that type.
-    // Rank word looks: MeterHud.Look.cs. Sandbox tools for looking at it live: MeterHud.Dev.cs.
+    // Rank word looks: MeterHud.Look.cs. How SSSILKSTORM and SILKSONG come and go: MeterHud.Moments.cs. Sandbox tools
+    // for looking at it live: MeterHud.Dev.cs.
     internal static partial class MeterHud
     {
         private const float BarWidth = 360f;
@@ -256,6 +257,7 @@ namespace Stylemeter.Game.Hud
             word = Node("Rank word", block);
             Place(word, new Vector2(1f, 1f), new Vector2(0.5f, 0.5f), new Vector2(-BarWidth / 2f, WordY),
                 new Vector2(440f, 120f));
+            wordGroup = word.gameObject.AddComponent<CanvasGroup>();
             raysHolder = Node("Silksong rays", word);
             Place(raysHolder, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0f, TopSize * 0.34f),
                 Vector2.zero);
@@ -322,7 +324,9 @@ namespace Stylemeter.Game.Hud
                     rankUpAt = now;
                 else if (shownRank >= 0 && rank < shownRank)
                     hitAt = now;
+                LeaveRank(shownRank, rank, now);
                 SetRank(rank);
+                EnterRank(shownRank, rank, now);
                 shownFill = meter.InCombo ? meter.Fill / meter.Size : 0f;
                 shownRank = rank;
             }
@@ -330,6 +334,7 @@ namespace Stylemeter.Game.Hud
             shownFill += (target - shownFill) * (1f - Mathf.Exp(-12f * dt));
             SetFill(rank, shownFill, now);
             Animate(rank, now);
+            PlayMoments(now);
             SetMeta(engine, rank);
             SetFeed(engine, now);
         }
@@ -351,11 +356,13 @@ namespace Stylemeter.Game.Hud
                 Halo(now, pulse);
         }
 
-        // A rank up pops the word and lights its letters; a rank lost to a hit shakes the meter and flashes it red.
+        // A rank up pops the word (SILKSONG harder) and lights its letters; a rank lost to a hit shakes the meter and
+        // flashes it red.
         private static void Animate(int rank, float now)
         {
             var up = now - rankUpAt;
-            var pop = up < 0.3f ? 1f + 0.25f * Square(1f - up / 0.3f) : 1f;
+            var swell = rank == Tuning.Silksong ? 0.35f : 0.25f;
+            var pop = up < 0.3f ? 1f + swell * Square(1f - up / 0.3f) : 1f;
             word.localScale = new Vector3(pop, pop, 1f);
             var color = RankColor(rank);
             var letters = up < 0.6f ? Mathf.Lerp(0.42f, BackdropAlpha, up / 0.6f) : BackdropAlpha;

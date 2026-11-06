@@ -28,6 +28,12 @@ namespace Stylemeter.Game.Hud
         // A soft round light, stretched into an ellipse in use: the glow behind the SILKSONG word (a capsule would
         // show its flat top and bottom as a band).
         public static Sprite Halo { get; private set; }
+        // SSSILKSTORM coming and going: a splash, a drop in flight and a run of blood; white, tinted in use.
+        public static Sprite BloodSplash { get; private set; }
+        public static Sprite BloodDrop { get; private set; }
+        public static Sprite BloodRun { get; private set; }
+        // A thin stroke of light, brightest along its middle: the slash through SILKSONG and the streak it arrives in.
+        public static Sprite Stroke { get; private set; }
         // The glow's margin around the art, as fractions of the art's width and height.
         public static Vector2 GlowMargin { get; private set; }
         public static bool Loaded { get; private set; }
@@ -53,7 +59,108 @@ namespace Stylemeter.Game.Hud
                 RapierGlow = Glow(rapier, new Color32(255, 196, 110, 255), 2.4f);
             Aura = MakeAura(256, 64);
             Halo = MakeAura(128, 128);
+            BloodSplash = Shape("Stylemeter splash", 128, 128, (x, y) => SplashAt(x / 128f, y / 128f));
+            BloodDrop = Shape("Stylemeter drop", 32, 48, DropAt);
+            // The blob at its top and the drop at its foot keep their shape however long the run is drawn.
+            BloodRun = Sliced(Shape("Stylemeter run", 16, 64, RunAt), new Vector4(0f, 12f, 0f, 10f));
+            Stroke = Shape("Stylemeter stroke", 256, 32, StrokeAt);
         }
+
+        // A white picture whose opacity at each pixel's centre comes from the given function.
+        private static Sprite Shape(string name, int w, int h, System.Func<float, float, float> opacityAt)
+        {
+            var pixels = new Color32[w * h];
+            for (var y = 0; y < h; y++)
+            {
+                for (var x = 0; x < w; x++)
+                {
+                    var a = Mathf.Clamp01(opacityAt(x + 0.5f, y + 0.5f));
+                    pixels[y * w + x] = new Color32(255, 255, 255, (byte)(a * 255f));
+                }
+            }
+            var texture = new Texture2D(w, h, TextureFormat.RGBA32, false)
+            {
+                name = name,
+                wrapMode = TextureWrapMode.Clamp,
+                filterMode = FilterMode.Bilinear,
+            };
+            texture.SetPixels32(pixels);
+            texture.Apply(false, true);
+            return Sprite.Create(texture, new Rect(0, 0, w, h), new Vector2(0.5f, 0.5f), 100f);
+        }
+
+        // The same picture cut for stretching: the border (left, bottom, right, top) keeps its size.
+        private static Sprite Sliced(Sprite sprite, Vector4 border) => Sprite.Create(sprite.texture, sprite.rect,
+            new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect, border);
+
+        // A splash, in a unit square: a ragged blot, thin spikes thrown out of it, and a drop past each spike's tip.
+        private static float SplashAt(float u, float v)
+        {
+            float dx = u * 2f - 1f, dy = v * 2f - 1f;
+            var r = Mathf.Sqrt(dx * dx + dy * dy);
+            float cos = r > 0f ? dx / r : 1f, sin = r > 0f ? dy / r : 0f;
+            var edge = 0.36f + 0.1f * Noise(cos * 2.2f + 5f, sin * 2.2f + 5f)
+                + 0.05f * Noise(cos * 6f + 9f, sin * 6f + 9f);
+            var a = Mathf.Clamp01((edge - r) * 40f);
+            var angle = Mathf.Atan2(dy, dx);
+            for (var k = 0; k < 11; k++)
+            {
+                var spike = Hash(k, 17) * Mathf.PI * 2f;
+                var length = 0.55f + 0.28f * Hash(k, 29);
+                var along = r * Mathf.Cos(angle - spike);
+                var across = Mathf.Abs(r * Mathf.Sin(angle - spike));
+                if (along > 0f && along < length)
+                {
+                    var width = (0.06f + 0.04f * Hash(k, 41)) * (1f - along / length);
+                    a = Mathf.Max(a, Mathf.Clamp01((width - across) * 60f));
+                }
+                var tip = length + 0.06f;
+                float tx = Mathf.Cos(spike) * tip - dx, ty = Mathf.Sin(spike) * tip - dy;
+                var dropRadius = 0.03f + 0.03f * Hash(k, 53);
+                a = Mathf.Max(a, Mathf.Clamp01((dropRadius - Mathf.Sqrt(tx * tx + ty * ty)) * 60f));
+            }
+            return a;
+        }
+
+        // A drop in flight, 32 by 48: round below, drawn out into a point above.
+        private static float DropAt(float x, float y)
+        {
+            const float cx = 16f, cy = 15f, radius = 11f, tail = 30f;
+            var dx = x - cx;
+            var round = radius - Mathf.Sqrt(dx * dx + (y - cy) * (y - cy));
+            var a = Mathf.Clamp01(round + 0.5f);
+            if (y > cy)
+            {
+                var half = radius * Mathf.Pow(Mathf.Clamp01(1f - (y - cy) / tail), 1.5f);
+                a = Mathf.Max(a, Mathf.Clamp01(half - Mathf.Abs(dx) + 0.5f));
+            }
+            return a;
+        }
+
+        // A run of blood, 16 by 64: a blob where it leaves the letter at the top, a thin stream, and a round drop at
+        // the bottom.
+        private static float RunAt(float x, float y)
+        {
+            const float cx = 8f, bulbY = 6f, bulb = 3.6f;
+            var dx = Mathf.Abs(x - cx);
+            var blob = 3.3f * Square(Mathf.Clamp01(1f - (64f - y) / 10f));
+            var half = 2.2f + 0.3f * (y - bulbY) / (64f - bulbY) + blob;
+            var stream = y > bulbY ? Mathf.Clamp01(half - dx + 0.5f) : 0f;
+            var drop = Mathf.Clamp01(bulb - Mathf.Sqrt(dx * dx + (y - bulbY) * (y - bulbY)) + 0.5f);
+            return Mathf.Max(stream, drop);
+        }
+
+        // A stroke of light, 256 by 32: a hard bright core in a soft glow, tapering to nothing at both ends.
+        private static float StrokeAt(float x, float y)
+        {
+            var taper = Mathf.Pow(Mathf.Sin(Mathf.PI * x / 256f), 0.7f);
+            var dy = Mathf.Abs(y - 16f);
+            var core = Mathf.Exp(-Square(dy / 2.2f));
+            var glow = 0.45f * Mathf.Exp(-Square(dy / 7f));
+            return (core + glow) * taper;
+        }
+
+        private static float Square(float x) => x * x;
 
         // The needle after a lot of killing (SSSILKSTORM): the same drawing with blood on it, more of it toward the
         // point and ragged along the shaft, and a few drops hanging under it. The ink stays black.

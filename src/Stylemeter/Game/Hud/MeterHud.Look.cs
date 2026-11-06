@@ -93,7 +93,8 @@ namespace Stylemeter.Game.Hud
             var restWidth = rest.text.Length > 0 ? rest.GetPreferredValues(rest.text).x : 0f;
             var initialWidth = tier.Length > 0 ? prefix.GetPreferredValues(tier).x : 0f;
             var gap = tier.Length > 0 ? 2f : 0f;
-            var left = -(initialWidth + gap + restWidth) / 2f;
+            shownWordWidth = initialWidth + gap + restWidth;
+            var left = -shownWordWidth / 2f;
             Place(prefix.rectTransform, center, new Vector2(0f, 0.5f), new Vector2(left, 0f),
                 new Vector2(initialWidth + 40f, 120f));
             Place(rest.rectTransform, center, new Vector2(0f, 0.5f), new Vector2(left + initialWidth + gap, 0f),
@@ -171,11 +172,12 @@ namespace Stylemeter.Game.Hud
 
         // SILKSONG every frame: the golden light behind the word breathes with the rapier and spreads evenly from the
         // middle to the edges (turning rays would cross the letters unevenly and a bright core would wash out the
-        // middle ones), and a golden glint runs along the letters.
+        // middle ones), and a golden glint runs along the letters. Both flare up as SILKSONG arrives (Radiance).
         private static void Halo(float now, float pulse)
         {
-            aura.color = new Color(DivineGlow.r, DivineGlow.g, DivineGlow.b, 0.36f * pulse);
-            rays.color = new Color(DivineGlow.r, DivineGlow.g, DivineGlow.b, 0.22f * pulse);
+            var radiance = Radiance(now);
+            aura.color = WithAlpha(DivineGlow, Mathf.Min(1f, 0.36f * pulse * (1f + 1.2f * radiance)));
+            rays.color = WithAlpha(DivineGlow, 0.22f * pulse * (1f + 2f * radiance));
             var breath = 1f + 0.06f * Mathf.Sin(now * 1.6f);
             rays.rectTransform.localScale = new Vector3(breath, breath, 1f);
             Shine(now);
@@ -193,6 +195,7 @@ namespace Stylemeter.Game.Hud
                 return;
             var phase = now % 3f / 1.4f;
             var band = -0.25f + phase * 1.5f;
+            var radiance = Radiance(now);
             var first = info.characterInfo[0].bottomLeft.x;
             var span = Mathf.Max(1f, info.characterInfo[info.characterCount - 1].topRight.x - first);
             for (var i = 0; i < info.characterCount; i++)
@@ -203,8 +206,8 @@ namespace Stylemeter.Game.Hud
                     continue;
                 var x = ((c.bottomLeft.x + c.topRight.x) * 0.5f - first) / span;
                 var glint = phase <= 1f ? Mathf.Exp(-Square((x - band) / 0.16f)) : 0f;
-                Color32 above = Color.Lerp(DivineTop, Color.white, glint);
-                Color32 below = Color.Lerp(DivineBottom, GlintGold, glint);
+                Color32 above = Color.Lerp(Color.Lerp(DivineTop, Color.white, glint), Color.white, radiance);
+                Color32 below = Color.Lerp(Color.Lerp(DivineBottom, GlintGold, glint), Color.white, radiance * 0.85f);
                 colors[v] = below;
                 colors[v + 1] = above;
                 colors[v + 2] = above;
