@@ -13,6 +13,10 @@
   <PropertyGroup>
     <Configurations>Release;Dev</Configurations>
   </PropertyGroup>
+  <!-- No debug information in the build players get: a PDB entry would carry the build machine's paths. -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Dev'">
     <Optimize>true</Optimize>
     <DefineConstants>$(DefineConstants);STYLEMETER_DEV</DefineConstants>
