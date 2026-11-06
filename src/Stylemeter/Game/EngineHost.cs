@@ -44,7 +44,7 @@ namespace Stylemeter.Game
             Engine.SilkEarned += () =>
             {
                 var hero = HeroController.instance;
-                if (!Plugin.SilkReward.Value || !hero)
+                if (!hero)
                     return;
                 hero.AddSilk(1, true);
                 Plugin.Out("SILK +1 for SILKSONG held");
@@ -57,6 +57,8 @@ namespace Stylemeter.Game
         {
             settings.PointsMultiplier = Plugin.PointsMultiplier.Value;
             settings.LoadDisabled(Plugin.DisabledBonuses.Value);
+            settings.IsSilkRewardOn = Plugin.SilkReward.Value;
+            Plugin.SilkReward.SettingChanged += (_, __) => settings.IsSilkRewardOn = Plugin.SilkReward.Value;
             settings.Changed += () =>
             {
                 Plugin.PointsMultiplier.Value = settings.PointsMultiplier;

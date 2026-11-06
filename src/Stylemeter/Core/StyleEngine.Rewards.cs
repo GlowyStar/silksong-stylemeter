@@ -77,7 +77,7 @@ namespace Stylemeter.Core
         private void TickSilkReward(float dt)
         {
             // An empty SILKSONG is about to fall: its last instant does not count.
-            if (Meter.Rank != Tuning.Silksong || Meter.Fill <= 0f)
+            if (!Settings.IsSilkRewardOn || Meter.Rank != Tuning.Silksong || Meter.Fill <= 0f)
             {
                 silksongHeld = 0f;
                 return;

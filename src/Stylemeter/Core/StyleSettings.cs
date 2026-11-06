@@ -32,6 +32,9 @@ namespace Stylemeter.Core
             }
         }
 
+        // Holding SILKSONG pays silk with a SILK line in the feed; when the player turns it off, neither comes.
+        public bool IsSilkRewardOn { get; set; } = true;
+
         public int DisabledCount => disabled.Count;
 
         public bool IsEnabled(string name) => !disabled.Contains(name);

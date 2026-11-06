@@ -96,6 +96,19 @@ namespace Stylemeter.Sim
             }
             Check(held == 2 && Count(awards, "SILK") == 2,
                 "SILKSONG held for 10 s gives two silk, each with a SILK line");
+
+            var off = NewEngine(out var offAwards);
+            var offSilk = 0;
+            off.SilkEarned += () => offSilk++;
+            off.Settings.IsSilkRewardOn = false;
+            off.Observe(0f, Ground());
+            for (var t = 0.5f; t <= 10f; t += 0.5f)
+            {
+                off.ForceMeter(Tuning.Silksong, 1f);
+                off.Tick(t, 0.5f, true);
+            }
+            Check(offSilk == 0 && Count(offAwards, "SILK") == 0,
+                "with the silk reward off, SILKSONG gives neither silk nor a SILK line");
             f.ForceMeter(Tuning.Silksong - 1, 0.5f);
             f.Tick(10.5f, 0.5f, true);
             f.ForceMeter(Tuning.Silksong, 1f);
