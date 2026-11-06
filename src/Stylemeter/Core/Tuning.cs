@@ -145,13 +145,10 @@ namespace Stylemeter.Core
         public const int CatsCradleHits = 3;
         // A dash finisher or a dart is one move: one bonus per move, a new move after this gap.
         public const float MoveGap = 0.4f;
-        public const float SwanSongWindow = 2f;
         // NO COST TOO GREAT: the skill's use and its silk leaving the spool arrive within this of each other.
         public const float NoCostSkillWindow = 0.5f;
         public const int StandingOvationKills = 3;
-        public const float PeekabooWindow = 8f;
         public const float SpartaWindow = 4f;
-        public const float StopThiefWindow = 3f;
         public const int DominoChain = 3;
         public const float DominoWindow = 1.5f;
         public const float GloryKillGrace = 0.3f;
