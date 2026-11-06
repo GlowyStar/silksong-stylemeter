@@ -4,8 +4,8 @@ Packs the Release build for Nexus Mods and GitHub.
 
 .DESCRIPTION
 Builds Release, runs the tests, checks that no developer tool got into the plugin, and writes
-dist\Stylemeter-<version>.zip (BepInEx/plugins/Stylemeter/ with the plugin, the readme and the license) next to its
-SHA-256 checksum. Unpacking the zip into the game folder installs the mod.
+dist\Stylemeter-<version>.zip (BepInEx/plugins/Stylemeter/ with the plugin, a short README.txt and the license)
+next to its SHA-256 checksum. Unpacking the zip into the game folder installs the mod.
 #>
 param(
     [string] $GameDir
@@ -42,7 +42,7 @@ if (Test-Path $zip) { Remove-Item $zip -Force }
 Add-Type -AssemblyName System.IO.Compression, System.IO.Compression.FileSystem
 $archive = [System.IO.Compression.ZipFile]::Open($zip, 'Create')
 try {
-    foreach ($file in @($plugin, (Join-Path $root 'README.md'), (Join-Path $root 'LICENSE'))) {
+    foreach ($file in @($plugin, (Join-Path $PSScriptRoot 'README.txt'), (Join-Path $root 'LICENSE'))) {
         $entryName = 'BepInEx/plugins/Stylemeter/' + (Split-Path $file -Leaf)
         [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $file, $entryName, 'Optimal') |
             Out-Null
