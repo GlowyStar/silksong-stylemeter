@@ -14,8 +14,8 @@ PLAN.md
 PLAYTEST_*.md
 DESIGN.md
 AUTOTEST.md
-BONUSES.md
-MECHANICS.md
+/BONUSES.md
+/MECHANICS.md
 research/
 backup/
 tools/sandbox/
