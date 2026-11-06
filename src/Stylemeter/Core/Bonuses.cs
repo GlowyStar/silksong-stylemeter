@@ -77,6 +77,7 @@ namespace Stylemeter.Core
                 .Select(f => (BonusDef)f.GetValue(null));
             return fields.Concat(BossBonuses.All)
                 .Where(b => !b.Silent && b.Group != None)
+                // Two ways to earn one name (KABOOM by a hit and by a blast) are one switch.
                 .GroupBy(b => b.Name).Select(g => g.First())
                 .Select((b, order) => (Bonus: b, Order: order))
                 .OrderBy(p => p.Bonus.Group).ThenBy(p => p.Order)

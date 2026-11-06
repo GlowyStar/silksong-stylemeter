@@ -116,7 +116,7 @@ namespace Stylemeter.Dev
                 return;
             HookGuard.Run(Guard, () =>
             {
-                var tool = WillThrowTool(__instance);
+                var tool = WillThrowTool != null ? WillThrowTool(__instance) : null;
                 if (tool)
                     Plugin.Out($"TOOL {tool.name} type={tool.Type}");
             });

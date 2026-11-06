@@ -235,7 +235,7 @@ namespace Stylemeter.Game
         [HarmonyPatch(typeof(HeroController), "ThrowTool")]
         private static void BeforeThrowTool(HeroController __instance, bool isAutoThrow) => HookGuard.Run("tools", () =>
         {
-            var tool = WillThrowTool(__instance);
+            var tool = WillThrowTool != null ? WillThrowTool(__instance) : null;
             if (tool)
                 EngineHost.ToolUsed(tool, isAutoThrow);
         });

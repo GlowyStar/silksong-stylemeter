@@ -32,8 +32,12 @@ namespace Stylemeter.Game.Menu
         private const float GlowAlpha = 0.17f;
         private const float MouseRestTime = 0.4f;
 
-        private static readonly float[] MultiplierSteps =
-            { 0.25f, 0.5f, 0.75f, 1f, 1.25f, 1.5f, 1.75f, 2f, 2.25f, 2.5f, 2.75f, 3f };
+        private const float MultiplierStep = 0.25f;
+
+        private static readonly float[] MultiplierSteps = Enumerable
+            .Range(0, (int)Math.Round((StyleSettings.MaxMultiplier - StyleSettings.MinMultiplier) / MultiplierStep) + 1)
+            .Select(index => StyleSettings.MinMultiplier + index * MultiplierStep)
+            .ToArray();
 
         private static ModPanel instance;
 
@@ -179,6 +183,10 @@ namespace Stylemeter.Game.Menu
         private void Leave()
         {
             Hide();
+            // Still on screen: give the input back. A screen fading out is left alone; the game's fade-in enables it.
+            var screenGroup = screen ? screen.ScreenCanvasGroup : null;
+            if (screenGroup && screen.isActiveAndEnabled && screenGroup.alpha > 0.99f)
+                screenGroup.interactable = wasScreenInteractable;
             var current = EventSystem.current;
             var selection = current ? current.currentSelectedGameObject : null;
             if (selection && selection.transform.IsChildOf(transform))

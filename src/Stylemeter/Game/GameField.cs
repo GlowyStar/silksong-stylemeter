@@ -3,7 +3,7 @@ using HarmonyLib;
 namespace Stylemeter.Game
 {
     // A private game field read through a cached accessor. When a game update renames or retypes the field the
-    // accessor is null, so the check that reads it fails inside its HookGuard and only that bonus is lost.
+    // accessor is null; every reader checks for that, so only the bonus that needs the field is lost.
     internal static class GameField
     {
         public static AccessTools.FieldRef<TOwner, TValue> Find<TOwner, TValue>(string name)

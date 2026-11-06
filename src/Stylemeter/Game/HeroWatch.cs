@@ -53,7 +53,7 @@ namespace Stylemeter.Game
             if (hc.cState.nailCharging)
             {
                 charging = true;
-                chargeHeld = NailChargeTimer(hc);
+                chargeHeld = NailChargeTimer != null ? NailChargeTimer(hc) : 0f;
             }
             else if (charging)
             {

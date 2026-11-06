@@ -43,7 +43,7 @@ namespace Stylemeter.Game
             right = false;
             var scale = hm.transform.localScale.x;
             var walker = hm.GetComponent<Walker>();
-            if (walker)
+            if (walker && WalkerRight != null)
             {
                 right = scale * WalkerRight(walker) >= 0f;
                 return true;
@@ -61,7 +61,7 @@ namespace Stylemeter.Game
                 return true;
             }
             var crawler = hm.GetComponent<Crawler>();
-            if (crawler)
+            if (crawler && CrawlerFacesRight != null)
             {
                 right = Mathf.Sign(scale) * (CrawlerFacesRight(crawler) ? 1f : -1f) > 0f;
                 return true;

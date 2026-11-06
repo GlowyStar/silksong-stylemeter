@@ -95,7 +95,7 @@ namespace Stylemeter.Game
         {
             if (All.TryGetValue(hm, out var w))
                 return w;
-            var stun = StunFsm(hm);
+            var stun = StunFsm != null ? StunFsm(hm) : null;
             w = new Watched
             {
                 Fsms = hm.GetComponentsInChildren<PlayMakerFSM>(true).Where(f => f != stun).ToArray(),
