@@ -47,15 +47,17 @@ namespace Stylemeter.Dev
 
         public static void LateUpdate()
         {
-            if (Bridge.Enabled)
-                Dummies.Tick();
+            if (!Bridge.Enabled)
+                return;
+            Dummies.Tick();
+            Arena.Tick();
         }
 
         public static void OnGUI()
         {
             if (Plugin.MeterEnabled.Value && TextOverlay.Value)
                 Overlay.Draw(Game.EngineHost.Engine);
-            if (Sandbox.InSandbox)
+            if (Sandbox.InSandbox && Sandbox.IsLabelShown)
                 GUI.Label(new Rect(20f, 20f, 600f, 30f), "STYLEMETER SANDBOX: test slot, saving is off");
         }
 

@@ -8,6 +8,8 @@ namespace Stylemeter.Dev
     internal static class Sandbox
     {
         public static int Slot = 3;
+        // Off for screenshots and recordings that show the meter in play.
+        public static bool IsLabelShown = true;
         private static bool cheatsOn;
 
         // invuln full|prevent|off: FullInvincible by default; PreventDeath lets hits land (dice, bell, mask tests) but

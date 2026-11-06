@@ -204,11 +204,37 @@ namespace Stylemeter.Dev
             Verbs["census"] = (w, id) => Probe.Census();
             Verbs["mark"] = (w, id) => Probe.Mark();
             Verbs["awards"] = (w, id) => Probe.Awards();
+            // shot [name] [scale]: a scale of 2 renders the picture at twice the screen's size.
             Verbs["shot"] = (w, id) =>
             {
                 var path = Path.Combine(dir, (w.Length > 1 ? w[1] : "shot") + ".png");
-                ScreenCapture.CaptureScreenshot(path);
+                ScreenCapture.CaptureScreenshot(path, w.Length > 2 ? int.Parse(w[2]) : 1);
                 return path;
+            };
+            // mult <x>: the points multiplier as the menu sets it (it is saved to the config).
+            Verbs["mult"] = (w, id) =>
+            {
+                Plugin.PointsMultiplier.Value = F(w[1]);
+                return FormattableString.Invariant($"points x{Plugin.PointsMultiplier.Value}");
+            };
+            Verbs["arena"] = (w, id) => w[1] == "off" ? Arena.Stop() : Arena.Start(F(w[1]));
+            Verbs["keep"] = (w, id) =>
+            {
+                var enemy = Dummies.Find(w[1]);
+                return enemy ? Kept.Keep(enemy, w[2]) : "no such enemy " + w[1];
+            };
+            Verbs["bring"] = (w, id) => Kept.Bring(w[1], F(w[2]), F(w[3]));
+            Verbs["clearroom"] = (w, id) => Kept.ClearRoom();
+            Verbs["walls"] = (w, id) => Kept.Walls(F(w[1]), F(w[2]));
+            Verbs["cover"] = (w, id) => Kept.Cover(F(w[1]), F(w[2]), F(w[3]));
+            Verbs["ground"] = (w, id) => Kept.Ground(F(w[1]), F(w[2]), F(w[3]));
+            Verbs["doors"] = (w, id) => string.Join(" | ",
+                UnityEngine.Object.FindObjectsByType<TransitionPoint>(FindObjectsSortMode.None)
+                    .Select(t => t.name + " " + V(t.transform.position)));
+            Verbs["label"] = (w, id) =>
+            {
+                Sandbox.IsLabelShown = w[1] != "off";
+                return "sandbox label " + (Sandbox.IsLabelShown ? "on" : "off");
             };
             Verbs["quit"] = (w, id) =>
             {
@@ -220,6 +246,19 @@ namespace Stylemeter.Dev
             Verbs["face"] = (w, id) => Puppet.Face(w[1]);
             Verbs["freeze"] = (w, id) => Dummies.Freeze(w.Length > 1 ? w[1] : "on");
             Verbs["enemy"] = (w, id) => Dummies.Move(w[1], F(w[2]), F(w[3]));
+            // spawn <enemy> <x> <y>: a fresh copy of a living enemy there. Moving an enemy keeps its home, and some
+            // (Peaks Drifters) fly back to it; a copy wakes where it is put and makes that its home.
+            Verbs["spawn"] = (w, id) =>
+            {
+                var original = Dummies.Find(w[1]);
+                if (!original)
+                    return "no such enemy " + w[1];
+                var at = new Vector3(F(w[2]), F(w[3]), original.transform.position.z);
+                var copy = UnityEngine.Object.Instantiate(original.gameObject, at, original.transform.rotation,
+                    original.transform.parent);
+                copy.name = original.name + " copy";
+                return copy.name + " at " + V(copy.transform.position);
+            };
             Verbs["nail"] = (w, id) => Sandbox.Nail(w[1]);
             Verbs["silk"] = (w, id) => Puppet.Silk(int.Parse(w[1]));
             Verbs["health"] = (w, id) => Puppet.Health(int.Parse(w[1]));
@@ -262,6 +301,12 @@ namespace Stylemeter.Dev
             Verbs["autopogo"] = (w, id) =>
             {
                 Later(id, Puppet.AutoPogo(w[1], F(w[2])));
+                return null;
+            };
+            Verbs["brawl"] = (w, id) =>
+            {
+                Later(id, Brawler.Fight(F(w[1]), w.Length > 3 ? F(w[2]) : float.MinValue,
+                    w.Length > 3 ? F(w[3]) : float.MaxValue));
                 return null;
             };
             Verbs["menu"] = (w, id) =>
