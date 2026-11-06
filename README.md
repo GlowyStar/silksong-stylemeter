@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/GlowyStar/silksong-stylemeter/releases"><img alt="Version 0.3.0 beta" src="https://img.shields.io/badge/version-0.3.0%20beta-d8b46a"></a>
+  <a href="https://github.com/GlowyStar/silksong-stylemeter/releases"><img alt="Version 0.4.0 beta" src="https://img.shields.io/badge/version-0.4.0%20beta-d8b46a"></a>
   <img alt="Hollow Knight: Silksong" src="https://img.shields.io/badge/game-Hollow%20Knight%3A%20Silksong-a3343b">
   <img alt="BepInEx 5" src="https://img.shields.io/badge/BepInEx-5.4.23%2B-5b6b7f">
   <a href="https://github.com/GlowyStar/silksong-stylemeter/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/GlowyStar/silksong-stylemeter/actions/workflows/ci.yml/badge.svg"></a>
@@ -163,48 +163,63 @@ It works with a gamepad, the keyboard and the mouse, and every change is saved a
 
 ## Install
 
-You need Hollow Knight: Silksong on Windows (the Steam version is the one tested) and
-[BepInEx 5](https://github.com/BepInEx/BepInEx/releases), the usual mod loader for Unity games.
+You need Hollow Knight: Silksong on Windows (the Steam version is the one tested). Each release has three downloads;
+pick one.
 
-1. **Find the game folder.** In Steam: right click the game, **Manage > Browse local files**. It is the folder with
+**The easy way: one zip with everything.**
+
+1. Download `Stylemeter-0.4.0-with-BepInEx.zip` from
+   [Releases](https://github.com/GlowyStar/silksong-stylemeter/releases).
+2. Open the game folder: in Steam, right click the game, **Manage > Browse local files**. It is the folder with
    `Hollow Knight Silksong.exe`.
-2. **Install BepInEx 5.** Download `BepInEx_win_x64_5.4.23` or newer from its
-   [releases](https://github.com/BepInEx/BepInEx/releases) (the x64 build of version 5, not 6), unpack it into the
-   game folder and start the game once, so BepInEx creates its folders. Close the game.
-3. **Install Stylemeter.** Download `Stylemeter-0.3.0.zip` from
-   [Releases](https://github.com/GlowyStar/silksong-stylemeter/releases) and unpack it into the game folder. The
-   plugin ends up in `BepInEx/plugins/Stylemeter/Stylemeter.dll`.
-4. **Play.** Start the game: Options now has a **Stylemeter** entry, and the meter appears as soon as Hornet scores.
+3. Unpack the zip right into that folder, not into a new folder inside it: `winhttp.dll` has to land next to the exe.
+4. Start the game. Options now has a **Stylemeter** entry, and the meter appears as soon as Hornet scores.
 
-The game folder should then look like this:
+The zip carries [BepInEx 5](https://github.com/BepInEx/BepInEx) 5.4.23.2, the usual mod loader for Unity games,
+unmodified and under its own license (LGPL 2.1, included), so nothing else is needed.
+
+**With a mod manager.** `Stylemeter-0.4.0-thunderstore.zip` is a Thunderstore package. In r2modman or the
+Thunderstore Mod Manager, pick Hollow Knight: Silksong and use **Import local mod** in the settings. If the manager
+has no BepInEx for Silksong yet, install **BepInExPack Silksong** from its online list first.
+
+**Already have BepInEx 5?** Unpack `Stylemeter-0.4.0.zip` into the game folder; the plugin ends up in
+`BepInEx/plugins/Stylemeter/Stylemeter.dll`.
+
+The game folder then looks like this:
 
 ```text
 Hollow Knight Silksong/
   Hollow Knight Silksong.exe
-  winhttp.dll                 (from BepInEx)
+  winhttp.dll                 (BepInEx)
   BepInEx/
+    core/                     (BepInEx)
     plugins/
       Stylemeter/
         Stylemeter.dll
 ```
 
-To check the download, compare its SHA-256 with the `.sha256` file next to it on the release page:
+To check a download, compare its SHA-256 with the `.sha256` file next to it on the release page:
 
 ```powershell
-Get-FileHash .\Stylemeter-0.3.0.zip -Algorithm SHA256
+Get-FileHash .\Stylemeter-0.4.0-with-BepInEx.zip -Algorithm SHA256
 ```
 
 **Update:** unpack the new zip over the old one. **Uninstall:** delete `BepInEx/plugins/Stylemeter` (and, if you
-like, `BepInEx/config/com.glowystar.stylemeter.cfg` and `BepInEx/Stylemeter`).
+like, `BepInEx/config/com.glowystar.stylemeter.cfg` and `BepInEx/Stylemeter`). To remove BepInEx as well, delete
+`winhttp.dll`, `doorstop_config.ini`, `.doorstop_version`, `changelog.txt` and the `BepInEx` folder.
 
 ## FAQ
 
-**The meter does not show up.** Open `BepInEx/LogOutput.log` and look for `Stylemeter 0.3.0 loaded`. If the line
+**The meter does not show up.** Open `BepInEx/LogOutput.log` and look for `Stylemeter 0.4.0 loaded`. If the line
 is missing, BepInEx is not running: check that `winhttp.dll` sits next to the game's exe. If it is there, check
 that `Meter.Enabled` and `Meter.ShowOverlay` are `true`. The meter stays hidden until Hornet scores.
 
 **Does it change the game?** Only the meter is added. The single exception is the silk reward at SILKSONG, which
 you can switch off (`Meter.SilkReward`). Saves are never touched.
+
+**Why no installer (.exe)?** A zip shows exactly what goes where and needs no rights; an unsigned exe from the
+internet can do anything, and Windows and antivirus programs would rightly warn about it. If you do not want to
+trust a download at all, build the plugin yourself and compare it with the release (see below).
 
 **Achievements?** They work as usual.
 
@@ -218,8 +233,9 @@ newest sessions there, older ones in `logs/old`, which keeps 200. Turn it off wi
 
 ## Build from source
 
-You need the [.NET SDK](https://dotnet.microsoft.com/download) 10 and the game with BepInEx installed: the plugin
-compiles against the game's own assemblies, which are not part of this repository.
+You need the [.NET SDK](https://dotnet.microsoft.com/download) 10.0.4xx (`global.json` names the exact version) and
+the game with BepInEx installed: the plugin compiles against the game's own assemblies, which are not part of this
+repository.
 
 ```powershell
 ./tools/build.ps1                              # Release build and the scoring tests
@@ -239,6 +255,21 @@ and research logs. Release builds contain none of it.
 | `src/Stylemeter.Sim` | Rule tests for the engine: `dotnet run --project src/Stylemeter.Sim -c Release -- test` |
 
 The version lives in one place, `src/Directory.Build.props`.
+
+### Check a release against the source
+
+The plugin builds the same, byte for byte, from the same commit: the build is deterministic and `global.json` pins
+the .NET SDK. So anyone can check that a release was built from this code and nothing else:
+
+```powershell
+git clone --branch v0.4.0 https://github.com/GlowyStar/silksong-stylemeter
+cd silksong-stylemeter
+./tools/build.ps1
+Get-FileHash .build/bin/Stylemeter/Release/netstandard2.1/Stylemeter.dll -Algorithm SHA256
+```
+
+The hash must equal **Plugin SHA-256** in the release notes, which is also the hash of `Stylemeter.dll` in every
+release zip. Clone with git rather than downloading the source zip: the commit goes into the plugin's version.
 
 ## Credits
 

@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/GlowyStar/silksong-stylemeter/releases"><img alt="Версия 0.3.0 beta" src="https://img.shields.io/badge/version-0.3.0%20beta-d8b46a"></a>
+  <a href="https://github.com/GlowyStar/silksong-stylemeter/releases"><img alt="Версия 0.4.0 beta" src="https://img.shields.io/badge/version-0.4.0%20beta-d8b46a"></a>
   <img alt="Hollow Knight: Silksong" src="https://img.shields.io/badge/game-Hollow%20Knight%3A%20Silksong-a3343b">
   <img alt="BepInEx 5" src="https://img.shields.io/badge/BepInEx-5.4.23%2B-5b6b7f">
   <a href="https://github.com/GlowyStar/silksong-stylemeter/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/GlowyStar/silksong-stylemeter/actions/workflows/ci.yml/badge.svg"></a>
@@ -166,27 +166,36 @@ flowchart LR
 
 ## Установка
 
-Нужны Hollow Knight: Silksong на Windows (проверено на версии из Steam) и
-[BepInEx 5](https://github.com/BepInEx/BepInEx/releases), обычный загрузчик модов для игр на Unity.
+Нужна Hollow Knight: Silksong на Windows (проверено на версии из Steam). У каждого релиза три архива, выбери один.
 
-1. **Найди папку игры.** В Steam: правой кнопкой по игре, **Управление > Просмотреть локальные файлы**. Это папка с
+**Проще всего: один архив, в котором есть всё.**
+
+1. Скачай `Stylemeter-0.4.0-with-BepInEx.zip` со страницы
+   [Releases](https://github.com/GlowyStar/silksong-stylemeter/releases).
+2. Открой папку игры: в Steam правой кнопкой по игре, **Управление > Просмотреть локальные файлы**. Это папка с
    `Hollow Knight Silksong.exe`.
-2. **Поставь BepInEx 5.** Скачай `BepInEx_win_x64_5.4.23` или новее со страницы
-   [релизов](https://github.com/BepInEx/BepInEx/releases) (сборка x64 версии 5, не 6), распакуй в папку игры и
-   запусти игру один раз, чтобы BepInEx создал свои папки. Закрой игру.
-3. **Поставь Stylemeter.** Скачай `Stylemeter-0.3.0.zip` со страницы
-   [Releases](https://github.com/GlowyStar/silksong-stylemeter/releases) и распакуй в папку игры. Плагин окажется в
-   `BepInEx/plugins/Stylemeter/Stylemeter.dll`.
-4. **Играй.** Запусти игру: в Настройках появится пункт **Stylemeter**, а шкала покажется, как только Хорнет
-   заработает первые очки.
+3. Распакуй архив прямо в эту папку, а не в новую папку внутри неё: `winhttp.dll` должен оказаться рядом с exe.
+4. Запусти игру. В Настройках появится пункт **Stylemeter**, а шкала покажется, как только Хорнет заработает первые
+   очки.
+
+В архиве лежит [BepInEx 5](https://github.com/BepInEx/BepInEx) 5.4.23.2, обычный загрузчик модов для игр на Unity,
+без изменений и под своей лицензией (LGPL 2.1, она приложена), так что больше ничего не нужно.
+
+**Через менеджер модов.** `Stylemeter-0.4.0-thunderstore.zip` это пакет Thunderstore. В r2modman или Thunderstore
+Mod Manager выбери Hollow Knight: Silksong и в настройках нажми **Import local mod**. Если BepInEx для Silksong в
+менеджере ещё нет, сначала поставь из его списка **BepInExPack Silksong**.
+
+**BepInEx 5 уже стоит?** Распакуй `Stylemeter-0.4.0.zip` в папку игры; плагин окажется в
+`BepInEx/plugins/Stylemeter/Stylemeter.dll`.
 
 Папка игры после этого выглядит так:
 
 ```text
 Hollow Knight Silksong/
   Hollow Knight Silksong.exe
-  winhttp.dll                 (от BepInEx)
+  winhttp.dll                 (BepInEx)
   BepInEx/
+    core/                     (BepInEx)
     plugins/
       Stylemeter/
         Stylemeter.dll
@@ -195,20 +204,25 @@ Hollow Knight Silksong/
 Проверить загрузку можно по SHA-256: сравни с файлом `.sha256` рядом с архивом на странице релиза.
 
 ```powershell
-Get-FileHash .\Stylemeter-0.3.0.zip -Algorithm SHA256
+Get-FileHash .\Stylemeter-0.4.0-with-BepInEx.zip -Algorithm SHA256
 ```
 
 **Обновление:** распакуй новый архив поверх старого. **Удаление:** удали `BepInEx/plugins/Stylemeter` (и при
-желании `BepInEx/config/com.glowystar.stylemeter.cfg` и `BepInEx/Stylemeter`).
+желании `BepInEx/config/com.glowystar.stylemeter.cfg` и `BepInEx/Stylemeter`). Чтобы убрать и BepInEx, удали ещё
+`winhttp.dll`, `doorstop_config.ini`, `.doorstop_version`, `changelog.txt` и папку `BepInEx`.
 
 ## Вопросы
 
-**Шкала не появляется.** Открой `BepInEx/LogOutput.log` и найди строку `Stylemeter 0.3.0 loaded`. Если её нет,
+**Шкала не появляется.** Открой `BepInEx/LogOutput.log` и найди строку `Stylemeter 0.4.0 loaded`. Если её нет,
 BepInEx не запускается: проверь, что `winhttp.dll` лежит рядом с exe игры. Если есть, проверь, что `Meter.Enabled`
 и `Meter.ShowOverlay` равны `true`. Шкала скрыта, пока Хорнет не заработала очки.
 
 **Мод меняет игру?** Добавляется только шкала. Единственное исключение: шёлк за SILKSONG, его можно выключить
 (`Meter.SilkReward`). Сохранения мод не трогает.
+
+**Почему нет установщика (.exe)?** Архив сразу показывает, что и куда ляжет, и не требует прав; неподписанный exe
+из интернета может сделать что угодно, и Windows с антивирусами справедливо его заподозрят. Если не хочешь доверять
+никакой загрузке, собери плагин сам и сравни с релизом (ниже).
 
 **Достижения?** Работают как обычно.
 
@@ -223,8 +237,8 @@ BepInEx не запускается: проверь, что `winhttp.dll` леж
 
 ## Сборка из исходников
 
-Нужны [.NET SDK](https://dotnet.microsoft.com/download) 10 и игра с BepInEx: плагин собирается против сборок самой
-игры, а их в репозитории нет.
+Нужны [.NET SDK](https://dotnet.microsoft.com/download) 10.0.4xx (точная версия в `global.json`) и игра с
+BepInEx: плагин собирается против сборок самой игры, а их в репозитории нет.
 
 ```powershell
 ./tools/build.ps1                              # Release и тесты подсчёта очков
@@ -244,6 +258,21 @@ BepInEx не запускается: проверь, что `winhttp.dll` леж
 | `src/Stylemeter.Sim` | Тесты правил движка: `dotnet run --project src/Stylemeter.Sim -c Release -- test` |
 
 Версия задаётся в одном месте, `src/Directory.Build.props`.
+
+### Как сверить релиз с исходниками
+
+Из одного и того же коммита плагин собирается байт в байт одинаково: сборка детерминированная, а `global.json`
+закрепляет версию .NET SDK. Поэтому любой может проверить, что релиз собран из этого кода и ни из чего другого:
+
+```powershell
+git clone --branch v0.4.0 https://github.com/GlowyStar/silksong-stylemeter
+cd silksong-stylemeter
+./tools/build.ps1
+Get-FileHash .build/bin/Stylemeter/Release/netstandard2.1/Stylemeter.dll -Algorithm SHA256
+```
+
+Хэш должен совпасть с **Plugin SHA-256** в описании релиза; это же хэш `Stylemeter.dll` в любом из архивов релиза.
+Клонируй через git, а не скачивай архив исходников: коммит входит в версию плагина.
 
 ## Авторы
 
