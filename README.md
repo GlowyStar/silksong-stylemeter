@@ -175,7 +175,7 @@ pick one.
 3. Unpack the zip right into that folder, not into a new folder inside it: `winhttp.dll` has to land next to the exe.
 4. Start the game. Options now has a **Stylemeter** entry, and the meter appears as soon as Hornet scores.
 
-The zip carries [BepInEx 5](https://github.com/BepInEx/BepInEx) 5.4.23.2, the usual mod loader for Unity games,
+The zip carries [BepInEx 5](https://github.com/BepInEx/BepInEx) (5.4.23), the usual mod loader for Unity games,
 unmodified and under its own license (LGPL 2.1, included), so nothing else is needed.
 
 **With a mod manager.** `Stylemeter-0.4.0-thunderstore.zip` is a Thunderstore package. In r2modman or the

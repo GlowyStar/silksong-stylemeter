@@ -178,7 +178,7 @@ flowchart LR
 4. Запусти игру. В Настройках появится пункт **Stylemeter**, а шкала покажется, как только Хорнет заработает первые
    очки.
 
-В архиве лежит [BepInEx 5](https://github.com/BepInEx/BepInEx) 5.4.23.2, обычный загрузчик модов для игр на Unity,
+В архиве лежит [BepInEx 5](https://github.com/BepInEx/BepInEx) (5.4.23), обычный загрузчик модов для игр на Unity,
 без изменений и под своей лицензией (LGPL 2.1, она приложена), так что больше ничего не нужно.
 
 **Через менеджер модов.** `Stylemeter-0.4.0-thunderstore.zip` это пакет Thunderstore. В r2modman или Thunderstore
