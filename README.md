@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/GlowyStar/silksong-stylemeter/releases"><img alt="Version 0.4.0 beta" src="https://img.shields.io/badge/version-0.4.0%20beta-d8b46a"></a>
+  <a href="https://github.com/GlowyStar/silksong-stylemeter/releases"><img alt="Version 0.4.1 beta" src="https://img.shields.io/badge/version-0.4.1%20beta-d8b46a"></a>
   <img alt="Hollow Knight: Silksong" src="https://img.shields.io/badge/game-Hollow%20Knight%3A%20Silksong-a3343b">
   <img alt="BepInEx 5" src="https://img.shields.io/badge/BepInEx-5.4.23%2B-5b6b7f">
   <a href="https://github.com/GlowyStar/silksong-stylemeter/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/GlowyStar/silksong-stylemeter/actions/workflows/ci.yml/badge.svg"></a>
@@ -54,7 +54,7 @@ up rank by rank. Repeat the same move, get hit or stand idle, and it drains away
 - **Height.** Every scoring action in the air raises a multiplier up to x2 until Hornet lands.
 - **Bosses** double every bonus, and each boss has its own named victory.
 - **Pressure.** Getting hit costs a rank. The higher the rank, the faster the meter drains; SILKSONG melts in about
-  five seconds unless you keep it fed.
+  ten seconds unless you keep it fed.
 - **A reward for holding the top:** one silk for every five seconds at SILKSONG (can be turned off).
 - **Settings in the game:** a panel in Options with the points multiplier and a switch for every bonus.
 - **Looks like it belongs:** a hand-drawn needle that fills as you score, rank names in the game's own lettering,
@@ -170,8 +170,8 @@ You need Hollow Knight: Silksong on Windows (the Steam version is the one tested
 
 **The easy way: one zip with everything.**
 
-1. Download `Stylemeter-0.4.0-with-BepInEx.zip` from [Releases][releases], or the main file
-   "Stylemeter 0.4.0 with BepInEx" from [Nexus Mods][nexus].
+1. Download `Stylemeter-0.4.1-with-BepInEx.zip` from [Releases][releases], or the main file
+   "Stylemeter 0.4.1 with BepInEx" from [Nexus Mods][nexus].
 2. Open the game folder: in Steam, right click the game, **Manage > Browse local files**. It is the folder with
    `Hollow Knight Silksong.exe`.
 3. Unpack the zip right into that folder, not into a new folder inside it: `winhttp.dll` has to land next to the exe.
@@ -182,10 +182,10 @@ unmodified and under its own license (LGPL 2.1, included), so nothing else is ne
 
 **With a mod manager.** In r2modman or the Thunderstore Mod Manager, pick Hollow Knight: Silksong and install
 Stylemeter from the online list, or click **Install with App** on its [Thunderstore page][thunderstore]; the
-manager brings BepInExPack Silksong along. `Stylemeter-0.4.0-thunderstore.zip` from Releases is the same
+manager brings BepInExPack Silksong along. `Stylemeter-0.4.1-thunderstore.zip` from Releases is the same
 package for **Import local mod** in the manager's settings.
 
-**Already have BepInEx 5?** Unpack `Stylemeter-0.4.0.zip` into the game folder; the plugin ends up in
+**Already have BepInEx 5?** Unpack `Stylemeter-0.4.1.zip` into the game folder; the plugin ends up in
 `BepInEx/plugins/Stylemeter/Stylemeter.dll`.
 
 The game folder then looks like this:
@@ -204,7 +204,7 @@ Hollow Knight Silksong/
 To check a download, compare its SHA-256 with the `.sha256` file next to it on the release page:
 
 ```powershell
-Get-FileHash .\Stylemeter-0.4.0-with-BepInEx.zip -Algorithm SHA256
+Get-FileHash .\Stylemeter-0.4.1-with-BepInEx.zip -Algorithm SHA256
 ```
 
 **Update:** unpack the new zip over the old one. **Uninstall:** delete `BepInEx/plugins/Stylemeter` (and, if you
@@ -217,7 +217,7 @@ like, `BepInEx/config/com.glowystar.stylemeter.cfg` and `BepInEx/Stylemeter`). T
 
 ## FAQ
 
-**The meter does not show up.** Open `BepInEx/LogOutput.log` and look for `Stylemeter 0.4.0 loaded`. If the line
+**The meter does not show up.** Open `BepInEx/LogOutput.log` and look for `Stylemeter 0.4.1 loaded`. If the line
 is missing, BepInEx is not running: check that `winhttp.dll` sits next to the game's exe. If it is there, check
 that `Meter.Enabled` and `Meter.ShowOverlay` are `true`. The meter stays hidden until Hornet scores.
 
@@ -269,7 +269,7 @@ The plugin builds the same, byte for byte, from the same commit: the build is de
 the .NET SDK. So anyone can check that a release was built from this code and nothing else:
 
 ```powershell
-git clone --branch v0.4.0 https://github.com/GlowyStar/silksong-stylemeter
+git clone --branch v0.4.1 https://github.com/GlowyStar/silksong-stylemeter
 cd silksong-stylemeter
 ./tools/build.ps1
 Get-FileHash .build/bin/Stylemeter/Release/netstandard2.1/Stylemeter.dll -Algorithm SHA256

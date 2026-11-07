@@ -363,7 +363,7 @@ namespace Stylemeter.Sim
             e.Tick(0.1f, 0f, false);
             Check(Has(awards, "ZERO TO HERO"), "reaching SUBLIME within 15 s is ZERO TO HERO");
             Check(Has(awards, "NO STRINGS ATTACHED"), "reaching SILKSONG without binding is NO STRINGS ATTACHED");
-            // 400 points a second outpace SILKSONG's 300 a second of drain.
+            // 400 points a second outpace SILKSONG's 150 a second of drain.
             for (var t = 0.5f; t <= 31f; t += 0.5f)
             {
                 e.Meter.Add(200);

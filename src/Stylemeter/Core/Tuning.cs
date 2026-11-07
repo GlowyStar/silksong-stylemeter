@@ -4,7 +4,7 @@ namespace Stylemeter.Core
     internal static class Tuning
     {
         // Rank sizes and drains per second (MECHANICS.md §2). While Hornet keeps scoring, the 2 s drain delay holds the
-        // meter, so the drains mostly matter once the fight is over. SILKSONG has no delay and melts from full in 5 s:
+        // meter, so the drains mostly matter once the fight is over. SILKSONG has no delay and melts from full in 10 s:
         // it is held only by scoring all the time, and pays silk for every 5 s held (SilkRewardPeriod).
         public static readonly RankInfo[] Ranks =
         {
@@ -15,7 +15,7 @@ namespace Stylemeter.Core
             new RankInfo("SUBLIME", 700, 26f),
             new RankInfo("SSERENADE", 850, 32.5f),
             new RankInfo("SSSILKSTORM", 1000, 44f),
-            new RankInfo("SILKSONG", 1500, 300f),
+            new RankInfo("SILKSONG", 1500, 150f),
         };
 
         public const int Sublime = 4;

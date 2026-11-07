@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/GlowyStar/silksong-stylemeter/releases"><img alt="Версия 0.4.0 beta" src="https://img.shields.io/badge/version-0.4.0%20beta-d8b46a"></a>
+  <a href="https://github.com/GlowyStar/silksong-stylemeter/releases"><img alt="Версия 0.4.1 beta" src="https://img.shields.io/badge/version-0.4.1%20beta-d8b46a"></a>
   <img alt="Hollow Knight: Silksong" src="https://img.shields.io/badge/game-Hollow%20Knight%3A%20Silksong-a3343b">
   <img alt="BepInEx 5" src="https://img.shields.io/badge/BepInEx-5.4.23%2B-5b6b7f">
   <a href="https://github.com/GlowyStar/silksong-stylemeter/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/GlowyStar/silksong-stylemeter/actions/workflows/ci.yml/badge.svg"></a>
@@ -55,7 +55,7 @@ Stylemeter следит за тем, как сражается Хорнет, и 
 - **Высота.** Каждое действие в воздухе поднимает множитель до x2, пока Хорнет не приземлится.
 - **Боссы** удваивают любой бонус, у каждого босса своя именная победа.
 - **Давление.** Пропущенный удар стоит ранга. Чем выше ранг, тем быстрее тает шкала; SILKSONG сгорает примерно за
-  пять секунд, если его не кормить.
+  десять секунд, если его не кормить.
 - **Награда за вершину:** одна единица шёлка за каждые пять секунд на SILKSONG (можно выключить).
 - **Настройки прямо в игре:** панель в Настройках с множителем очков и переключателем для каждого бонуса.
 - **Выглядит как часть игры:** рисованная игла, которая наполняется очками, названия рангов шрифтом игры,
@@ -173,8 +173,8 @@ flowchart LR
 
 **Проще всего: один архив, в котором есть всё.**
 
-1. Скачай `Stylemeter-0.4.0-with-BepInEx.zip` со страницы [Releases][releases] или главный файл
-   "Stylemeter 0.4.0 with BepInEx" с [Nexus Mods][nexus].
+1. Скачай `Stylemeter-0.4.1-with-BepInEx.zip` со страницы [Releases][releases] или главный файл
+   "Stylemeter 0.4.1 with BepInEx" с [Nexus Mods][nexus].
 2. Открой папку игры: в Steam правой кнопкой по игре, **Управление > Просмотреть локальные файлы**. Это папка с
    `Hollow Knight Silksong.exe`.
 3. Распакуй архив прямо в эту папку, а не в новую папку внутри неё: `winhttp.dll` должен оказаться рядом с exe.
@@ -186,10 +186,10 @@ flowchart LR
 
 **Через менеджер модов.** В r2modman или Thunderstore Mod Manager выбери Hollow Knight: Silksong и поставь
 Stylemeter из списка модов или нажми **Install with App** на его [странице в Thunderstore][thunderstore];
-BepInExPack Silksong менеджер поставит сам. `Stylemeter-0.4.0-thunderstore.zip` из Releases это тот же пакет
+BepInExPack Silksong менеджер поставит сам. `Stylemeter-0.4.1-thunderstore.zip` из Releases это тот же пакет
 для **Import local mod** в настройках менеджера.
 
-**BepInEx 5 уже стоит?** Распакуй `Stylemeter-0.4.0.zip` в папку игры; плагин окажется в
+**BepInEx 5 уже стоит?** Распакуй `Stylemeter-0.4.1.zip` в папку игры; плагин окажется в
 `BepInEx/plugins/Stylemeter/Stylemeter.dll`.
 
 Папка игры после этого выглядит так:
@@ -208,7 +208,7 @@ Hollow Knight Silksong/
 Проверить загрузку можно по SHA-256: сравни с файлом `.sha256` рядом с архивом на странице релиза.
 
 ```powershell
-Get-FileHash .\Stylemeter-0.4.0-with-BepInEx.zip -Algorithm SHA256
+Get-FileHash .\Stylemeter-0.4.1-with-BepInEx.zip -Algorithm SHA256
 ```
 
 **Обновление:** распакуй новый архив поверх старого. **Удаление:** удали `BepInEx/plugins/Stylemeter` (и при
@@ -221,7 +221,7 @@ Get-FileHash .\Stylemeter-0.4.0-with-BepInEx.zip -Algorithm SHA256
 
 ## Вопросы
 
-**Шкала не появляется.** Открой `BepInEx/LogOutput.log` и найди строку `Stylemeter 0.4.0 loaded`. Если её нет,
+**Шкала не появляется.** Открой `BepInEx/LogOutput.log` и найди строку `Stylemeter 0.4.1 loaded`. Если её нет,
 BepInEx не запускается: проверь, что `winhttp.dll` лежит рядом с exe игры. Если есть, проверь, что `Meter.Enabled`
 и `Meter.ShowOverlay` равны `true`. Шкала скрыта, пока Хорнет не заработала очки.
 
@@ -273,7 +273,7 @@ BepInEx: плагин собирается против сборок самой 
 закрепляет версию .NET SDK. Поэтому любой может проверить, что релиз собран из этого кода и ни из чего другого:
 
 ```powershell
-git clone --branch v0.4.0 https://github.com/GlowyStar/silksong-stylemeter
+git clone --branch v0.4.1 https://github.com/GlowyStar/silksong-stylemeter
 cd silksong-stylemeter
 ./tools/build.ps1
 Get-FileHash .build/bin/Stylemeter/Release/netstandard2.1/Stylemeter.dll -Algorithm SHA256

@@ -56,7 +56,7 @@ The first hit of Clawline is not silent: it shows as HOOKED.
 | SUBLIME | 700 | 26 | 27 s |
 | SSERENADE | 850 | 32.5 | 26 s |
 | SSSILKSTORM | 1000 | 44 | 23 s |
-| SILKSONG | 1500 | 300 | 5 s |
+| SILKSONG | 1500 | 150 | 10 s |
 
 The last column is how long a full meter lasts with no new points, once the drain starts.
 
@@ -69,7 +69,7 @@ The last column is how long a full meter lasts with no new points, once the drai
 - Nothing drains while the game is paused, in cutscenes and dialogues, during scene transitions and at a bench.
 - Death ends the combo, and so does quitting to the menu.
 
-SILKSONG drains 300 points a second from the first moment, so a full meter melts in 5 s. It stays only while Hornet
+SILKSONG drains 150 points a second from the first moment, so a full meter melts in 10 s. It stays only while Hornet
 keeps scoring about as fast. Holding it pays:
 
 - Every 5 s on SILKSONG gives Hornet one silk, and the feed shows SILK. Dropping below SILKSONG starts the count

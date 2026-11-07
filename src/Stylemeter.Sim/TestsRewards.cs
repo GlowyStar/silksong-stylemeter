@@ -74,15 +74,27 @@ namespace Stylemeter.Sim
         private static void SilksongRules()
         {
             var e = NewEngine(out _);
-            var silk = 0;
-            e.SilkEarned += () => silk++;
             e.Observe(0f, Ground());
             e.ForceMeter(Tuning.Silksong, 1f);
             e.Tick(0.5f, 0.5f, true);
             Check(e.Meter.Fill < Tuning.Ranks[Tuning.Silksong].Size, "SILKSONG drains at once, without the 2 s delay");
-            for (var t = 1f; t <= 5.5f; t += 0.5f)
+            for (var t = 1f; t <= 9.5f; t += 0.5f)
                 e.Tick(t, 0.5f, true);
-            Check(e.Meter.Rank < Tuning.Silksong, "a full SILKSONG melts in 5 s");
+            Check(e.Meter.Rank == Tuning.Silksong, "a full SILKSONG still holds after 9.5 s");
+            for (var t = 10f; t <= 10.5f; t += 0.5f)
+                e.Tick(t, 0.5f, true);
+            Check(e.Meter.Rank < Tuning.Silksong, "a full SILKSONG melts in 10 s");
+
+            var lost = NewEngine(out _);
+            var silk = 0;
+            lost.SilkEarned += () => silk++;
+            lost.Observe(0f, Ground());
+            lost.ForceMeter(Tuning.Silksong, 1f);
+            for (var t = 0.5f; t <= 4.5f; t += 0.5f)
+                lost.Tick(t, 0.5f, true);
+            lost.Meter.DropRank();
+            for (var t = 5f; t <= 6f; t += 0.5f)
+                lost.Tick(t, 0.5f, true);
             Check(silk == 0, "a SILKSONG lost within 5 s gives no silk");
 
             var f = NewEngine(out var awards);
